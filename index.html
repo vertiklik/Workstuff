@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Team Meeting Report - Jan 15</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #000000;
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #ffffff;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(118, 75, 162, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 40% 60%, rgba(236, 72, 153, 0.1) 0%, transparent 40%),
+                radial-gradient(ellipse at 60% 30%, rgba(34, 211, 238, 0.08) 0%, transparent 40%);
+            z-index: -1;
+            animation: gradientShift 15s ease-in-out infinite alternate;
+        }
+
+        @keyframes gradientShift {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        /* Floating Orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: -1;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            top: -100px;
+            right: -100px;
+            opacity: 0.3;
+        }
+
+        .orb-2 {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            bottom: 10%;
+            left: -100px;
+            opacity: 0.2;
+            animation-delay: -5s;
+        }
+
+        .orb-3 {
+            width: 250px;
+            height: 250px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            top: 50%;
+            right: 10%;
+            opacity: 0.15;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(30px, -30px) rotate(5deg); }
+            50% { transform: translate(-20px, 20px) rotate(-5deg); }
+            75% { transform: translate(20px, 30px) rotate(3deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .header-label {
+            display: inline-block;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.3) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: clamp(40px, 7vw, 72px);
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff 0%, #a1a1aa 50%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            letter-spacing: -2px;
+        }
+
+        .header-meta {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* Bento Grid */
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 16px;
+        }
+
+        .bento-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border-radius: 28px;
+            padding: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out backwards;
+        }
+
+        .bento-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        }
+
+        .bento-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.5),
+                0 0 100px rgba(102, 126, 234, 0.1);
+        }
+
+        /* Staggered Animations */
+        .bento-card:nth-child(1) { animation-delay: 0.1s; }
+        .bento-card:nth-child(2) { animation-delay: 0.2s; }
+        .bento-card:nth-child(3) { animation-delay: 0.3s; }
+        .bento-card:nth-child(4) { animation-delay: 0.4s; }
+        .bento-card:nth-child(5) { animation-delay: 0.5s; }
+        .bento-card:nth-child(6) { animation-delay: 0.6s; }
+        .bento-card:nth-child(7) { animation-delay: 0.7s; }
+
+        /* Card Sizes */
+        .card-full { grid-column: span 12; }
+        .card-half { grid-column: span 6; }
+        .card-third { grid-column: span 4; }
+        .card-two-thirds { grid-column: span 8; }
+
+        @media (max-width: 900px) {
+            .card-half, .card-third, .card-two-thirds { grid-column: span 12; }
+        }
+
+        /* Card Variants */
+        .card-attendees {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .card-priority {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.15) 0%, rgba(239, 68, 68, 0.15) 100%);
+            border-color: rgba(236, 72, 153, 0.3);
+        }
+
+        .card-venue {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.15) 0%, rgba(34, 211, 238, 0.15) 100%);
+            border-color: rgba(34, 211, 238, 0.3);
+        }
+
+        .card-big7 {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(245, 158, 11, 0.15) 100%);
+            border-color: rgba(251, 191, 36, 0.3);
+        }
+
+        /* Card Content */
+        .card-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            display: inline-block;
+            animation: iconPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .card-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.4);
+            margin-bottom: 10px;
+        }
+
+        .card-title {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 18px;
+            letter-spacing: -0.5px;
+        }
+
+        .card-text {
+            font-size: 15px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.8;
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gradient-text-gold {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #fcd34d 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Lists */
+        .card-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .card-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .card-list li:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .card-list li::before {
+            content: "→";
+            color: #667eea;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        /* Action Badge */
+        .action-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            padding: 12px 22px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 700;
+            margin-top: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
+            animation: badgePulse 2s ease-in-out infinite;
+        }
+
+        @keyframes badgePulse {
+            0%, 100% { box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3); }
+            50% { box-shadow: 0 10px 40px rgba(239, 68, 68, 0.5); }
+        }
+
+        .action-badge::before {
+            content: "⚡";
+            font-size: 14px;
+        }
+
+        /* Priority List */
+        .priority-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .priority-item {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 18px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .priority-item:hover {
+            padding-left: 10px;
+        }
+
+        .priority-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .priority-number {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.3) 0%, rgba(239, 68, 68, 0.3) 100%);
+            border: 1px solid rgba(236, 72, 153, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .priority-text {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .arrow-connector {
+            margin-left: auto;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 20px;
+        }
+
+        /* Attendee Pills */
+        .attendee-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .attendee-pill {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 12px 22px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .attendee-pill:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* Segment Tags */
+        .segment-tags {
+            display: flex;
+            gap: 12px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .segment-tag {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* Timeline */
+        .timeline {
+            display: flex;
+            gap: 16px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .timeline-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 16px 22px;
+            border-radius: 16px;
+            font-size: 14px;
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .timeline-label {
+            font-weight: 700;
+            color: #818cf8;
+            display: block;
+            margin-bottom: 6px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .feature-text {
+            font-size: 13px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.4;
+        }
+
+        /* Note Box */
+        .note-box {
+            background: rgba(251, 191, 36, 0.1);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            padding: 18px 22px;
+            border-radius: 16px;
+            margin-top: 20px;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .note-box strong {
+            color: #fbbf24;
+        }
+
+        /* Highlight Box */
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(245, 158, 11, 0.1) 100%);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .highlight-icon {
+            font-size: 28px;
+            flex-shrink: 0;
+        }
+
+        .highlight-text {
+            font-size: 15px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .highlight-text strong {
+            color: #fbbf24;
+        }
+
+        /* Big 7 Special Card */
+        .big7-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #000000;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 13px;
+            animation: fadeInUp 1s ease-out 0.8s backwards;
+        }
+
+        /* Sparkle effect */
+        .sparkle {
+            position: relative;
+        }
+
+        .sparkle::after {
+            content: '✦';
+            position: absolute;
+            top: -5px;
+            right: -15px;
+            font-size: 12px;
+            color: #fbbf24;
+            animation: sparkle 1.5s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="bg-gradient"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <span class="header-label">✦ Meeting Notes</span>
+            <h1>Email Team Sync</h1>
+            <p class="header-meta">January 15, 2025 • Marketing Department</p>
+        </header>
+
+        <!-- Bento Grid -->
+        <div class="bento-grid">
+            
+            <!-- Attendees Card -->
+            <div class="bento-card card-half card-attendees">
+                <div class="card-icon">👥</div>
+                <div class="card-label">Attendees</div>
+                <div class="card-title">Meeting Participants</div>
+                <div class="attendee-grid">
+                    <span class="attendee-pill">✦ Jagatpathi</span>
+                    <span class="attendee-pill">✦ Madhurighata Dasi</span>
+                    <span class="attendee-pill">✦ Ronnie Ganguly</span>
+                </div>
+            </div>
+
+            <!-- Event Venue Card -->
+            <div class="bento-card card-half card-venue">
+                <div class="card-icon">🌎</div>
+                <div class="card-label">Global Events</div>
+                <div class="card-title">Event Venue</div>
+                <div class="card-text">
+                    Event will take place in both <strong style="color: #22d3ee;">US</strong> and <strong style="color: #22d3ee;">SPN</strong>. Copy for US audience needs to be more targeted.
+                </div>
+                <div class="note-box" style="background: rgba(34, 211, 238, 0.1); border-color: rgba(34, 211, 238, 0.3);">
+                    <strong style="color: #22d3ee;">Owner:</strong> Ronnie will work with the US team to write localized copy.
+                </div>
+            </div>
+
+            <!-- Big 7 Strategy Card -->
+            <div class="bento-card card-full card-big7">
+                <div class="big7-badge">⭐ Strategic Priority</div>
+                <div class="card-icon">🙏</div>
+                <div class="card-title"><span class="gradient-text-gold sparkle">Big 7</span> Event Emails</div>
+                <div class="card-text" style="font-size: 18px; max-width: 700px;">
+                    Emphasize <strong style="color: #fbbf24;">Guruji's presence</strong> in all Big 7 event communications. This should be the central focus of our messaging strategy.
+                </div>
+                <div class="highlight-box">
+                    <span class="highlight-icon">💡</span>
+                    <span class="highlight-text">Apply this framework to <strong>Moola Mantra</strong> and similar large-scale event campaigns for maximum engagement.</span>
+                </div>
+            </div>
+
+            <!-- Bhakti+ Card -->
+            <div class="bento-card card-two-thirds">
+                <div class="card-icon">✨</div>
+                <div class="card-label">Email Campaign</div>
+                <div class="card-title">Bhakti+</div>
+                <ul class="card-list">
+                    <li>Original Bhakti Plus emails are performing well</li>
+                    <li>Future emails should maintain the same tone of voice</li>
+                    <li>New reminder emails needed to follow up the first two emails</li>
+                </ul>
+                <div class="action-badge">Need Reminder Email ASAP</div>
+            </div>
+
+            <!-- Narasimha Jayanti Card -->
+            <div class="bento-card card-third">
+                <div class="card-icon">🦁</div>
+                <div class="card-label">Event Update</div>
+                <div class="card-title">Narasimha Jayanti</div>
+                <div class="card-text">
+                    <strong style="color: #ef4444;">⚠️ Important Change:</strong><br>
+                    It's a <strong>one-day event</strong>, not 5 days as previously thought.
+                </div>
+                <ul class="card-list" style="margin-top: 16px;">
+                    <li>Rewrite landing page</li>
+                    <li>Rewrite emails per Madhurighata's directions</li>
+                </ul>
+                <div class="action-badge">Edit Email & LP</div>
+            </div>
+
+            <!-- Darshan Email Card -->
+            <div class="bento-card card-half">
+                <div class="card-icon">🙏</div>
+                <div class="card-label">Segmentation Strategy</div>
+                <div class="card-title">Darshan Email</div>
+                <div class="card-text">Segment audience and send targeted communications:</div>
+                <div class="segment-tags">
+                    <span class="segment-tag">👤 Followers</span>
+                    <span class="segment-tag">🆕 Newcomers</span>
+                </div>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <span class="timeline-label">Email #1</span>
+                        4 weeks before event
+                    </div>
+                    <div class="timeline-item">
+                        <span class="timeline-label">Email #2</span>
+                        1 week before event
+                    </div>
+                </div>
+            </div>
+
+            <!-- Moola Mantra Card -->
+            <div class="bento-card card-half">
+                <div class="card-icon">🎵</div>
+                <div class="card-label">Upcoming Event</div>
+                <div class="card-title">Moola Mantra</div>
+                <div class="card-text">
+                    <strong>Owner:</strong> Swami Keshava<br>
+                    <em style="color: rgba(255,255,255,0.5);">Specifics not yet known — leave an element of mystery</em>
+                </div>
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">📅</div>
+                        <div class="feature-text">3-Day<br>Celebration</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🎶</div>
+                        <div class="feature-text">Lots of<br>Kirtans</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🙏</div>
+                        <div class="feature-text">Guruji<br>Attending</div>
+                    </div>
+                </div>
+                <div class="note-box">
+                    <strong>Note:</strong> Email should be segmented same as Big 7 events — emphasize Guruji's presence
+                </div>
+                <div class="action-badge">Need LP & Email ASAP</div>
+            </div>
+
+            <!-- Priority Card -->
+            <div class="bento-card card-full card-priority">
+                <div class="card-icon">🎯</div>
+                <div class="card-label">Action Items</div>
+                <div class="card-title">Priority Order</div>
+                <ul class="priority-list">
+                    <li class="priority-item">
+                        <span class="priority-number">1</span>
+                        <span class="priority-text">Darshan Emails</span>
+                        <span class="arrow-connector">→</span>
+                    </li>
+                    <li class="priority-item">
+                        <span class="priority-number">2</span>
+                        <span class="priority-text">Bhakti Plus Emails</span>
+                        <span class="arrow-connector">→</span>
+                    </li>
+                    <li class="priority-item">
+                        <span class="priority-number">3</span>
+                        <span class="priority-text">Moola Mantra Landing Page + Emails</span>
+                        <span class="arrow-connector">✓</span>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Email Team Report • Generated January 15, 2025</p>
+        </footer>
+    </div>
+</body>
+</html>
